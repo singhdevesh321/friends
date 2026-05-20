@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buddy – Behaviour & Future Wishes</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #1d4ed8, #020617);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5f2ff;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 500px;
+      padding: 30px 24px 22px;
+      background: rgba(15,23,42,0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.6);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #cbd5f5;
+      margin-bottom: 18px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.95);
+      color: #e5f2ff;
+      text-align: center;
+      margin-bottom: 14px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px 28px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg,#f97316,#ec4899);
+      color: white;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 22px;
+      padding: 20px;
+      background: linear-gradient(145deg, rgba(59,130,246,0.95), rgba(236,72,153,0.95));
+    }
+
+    .modal-inner {
+      background: rgba(15,23,42,0.9);
+      border-radius: 16px;
+      padding: 18px 16px;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      text-align: center;
+      color: #f9a8d4;
+    }
+
+    .label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #93c5fd;
+      margin-top: 10px;
+    }
+
+    .text {
+      margin-top: 6px;
+      font-size: 0.96rem;
+      line-height: 1.7;
+      color: #e5e7eb;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(148,163,184,0.6);
+      margin: 14px 0;
+    }
+
+    .close-btn {
+      margin-top: 18px;
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Buddy</h1>
+
+    <p class="subtitle">
+      Behaviour + Future wishes for my friends.
+    </p>
+
+    <input
+      id="friendName"
+      type="text"
+      placeholder="Type your name..."
+      autocomplete="off"
+    />
+
+    <button onclick="showMessage()">
+      Show My Message
+    </button>
+
+    <p class="hint">
+      Enter your exact name
+    </p>
+  </div>
+
+  <div id="backdrop" class="backdrop">
+
+    <div class="modal">
+
+      <div class="modal-inner">
+
+        <h2 id="modalTitle"></h2>
+
+        <div class="label">Behaviour</div>
+        <p id="behaviourText" class="text"></p>
+
+        <div class="divider"></div>
+
+        <div class="label">Future Wishes</div>
+        <p id="futureText" class="text"></p>
+
+      </div>
+
+      <button class="close-btn" onclick="closeModal()">
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const messages = {
+
+      "shweta tiwari": {
+        behaviour: "You are confident, expressive and full of positive energy.",
+        future: "I wish you success, happiness and endless growth in life."
+      },
+
+      "aditya": {
+        behaviour: "You are smart, focused and always ready to help others.",
+        future: "I wish your future is filled with achievements and peace."
+      },
+
+      "anushika": {
+        behaviour: "You have a caring heart and a beautiful personality.",
+        future: "I wish all your dreams come true and life gives you happiness."
+      },
+
+      "harshdeep": {
+        behaviour: "You are strong, calm and emotionally mature.",
+        future: "I wish you a bright future with success and respect."
+      },
+
+      "kalash": {
+        behaviour: "You are energetic and fun to be around.",
+        future: "I wish your confidence takes you to great heights."
+      },
+
+      "luvkush": {
+        behaviour: "You are loyal, supportive and genuine.",
+        future: "I wish your hard work always brings success."
+      },
+
+      "neelam": {
+        behaviour: "You may not speak much, but your loyalty is strong.",
+        future: "I wish your kindness and efforts are always valued."
+      },
+
+      "qaim": {
+        behaviour: "You are intelligent and think deeply before acting.",
+        future: "I wish your future becomes successful and meaningful."
+      },
+
+      "shweta sahu": {
+        behaviour: "You are practical, brave and responsible.",
+        future: "I wish your hard work turns into a successful career."
+      },
+
+      "suryansh": {
+        behaviour: "You bring confidence and fun everywhere.",
+        future: "I wish your confidence becomes your biggest strength."
+      },
+
+      "suman": {
+        behaviour: "You are humble, calm and understanding.",
+        future: "I wish you a peaceful and successful life ahead."
+      },
+
+      "vikas": {
+        behaviour: "You are hardworking and determined.",
+        future: "I wish you achieve every goal you work for."
+      },
+
+      "shrissti": {
+        behaviour: "You have a soft heart and mature understanding.",
+        future: "I wish you always feel loved, safe and appreciated."
+      },
+
+      "anupama": {
+        behaviour: "You are kind, intelligent and emotionally strong.",
+        future: "I wish your future is filled with happiness and success."
+      },
+
+      "divya": {
+        behaviour: "You are graceful, smart and emotionally balanced.",
+        future: "I wish life returns every good thing to you in double."
+      },
+
+      "nishtha": {
+        behaviour: "You are disciplined, caring and thoughtful.",
+        future: "I wish your future shines with joy and achievements."
+      }
+
+    };
+
+    function keyName(name) {
+      return name.trim().toLowerCase();
+    }
+
+    function pretty(name) {
+      return name
+        .trim()
+        .split(" ")
+        .filter(Boolean)
+        .map(word =>
+          word.charAt(0).toUpperCase() +
+          word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    }
+
+    function showMessage() {
+
+      const input = document.getElementById("friendName");
+
+      const raw = input.value;
+
+      const key = keyName(raw);
+
+      if (!raw || !messages[key]) {
+
+        alert("Please type your correct name.");
+
+        input.focus();
+
+        return;
+      }
+
+      const data = messages[key];
+
+      document.getElementById("modalTitle").textContent =
+        "To " + pretty(raw);
+
+      document.getElementById("behaviourText").textContent =
+        data.behaviour;
+
+      document.getElementById("futureText").textContent =
+        data.future;
+
+      document.getElementById("backdrop").style.display =
+        "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("backdrop").style.display = "none";
+    }
+
+    document.getElementById("backdrop").addEventListener(
+      "click",
+      function(e) {
+        if (e.target.id === "backdrop") {
+          closeModal();
+        }
+      }
+    );
+
+  </script>
+
+</body>
+</html>
